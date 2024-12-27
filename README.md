@@ -1,38 +1,39 @@
-![CeresDB](docs/logo/CeresDB.png)
+![HoraeDB](docs/logo/horaedb-banner-white-small.jpg)
 
 ![License](https://img.shields.io/badge/license-Apache--2.0-green.svg)
-[![CI](https://github.com/CeresDB/ceresdb/actions/workflows/ci.yml/badge.svg)](https://github.com/CeresDB/ceresdb/actions/workflows/ci.yml)
-[![OpenIssue](https://img.shields.io/github/issues/CeresDB/ceresdb)](https://github.com/CeresDB/ceresdb/issues)
-[![Slack](https://badgen.net/badge/Slack/Join%20CeresDB/0abd59?icon=slack)](https://join.slack.com/t/ceresdbcommunity/shared_invite/zt-1dcbv8yq8-Fv8aVUb6ODTL7kxbzs9fnA)
-[![Docker](https://img.shields.io/docker/v/ceresdb/ceresdb-server?logo=docker)](https://hub.docker.com/r/ceresdb/ceresdb-server)
+[![CI](https://github.com/apache/horaedb/actions/workflows/ci.yml/badge.svg)](https://github.com/apache/horaedb/actions/workflows/ci.yml)
+[![OpenIssue](https://img.shields.io/github/issues/apache/horaedb)](https://github.com/apache/horaedb/issues)
+[![HoraeDB Docker](https://img.shields.io/docker/v/apache/horaedb-server?logo=docker&label=horaedb-server)](https://hub.docker.com/r/apache/horaedb-server)
+[![HoraeMeta Docker](https://img.shields.io/docker/v/apache/horaemeta-server?logo=docker&label=horaemeta-server)](https://hub.docker.com/r/apache/horaemeta-server)
 
-[中文](./README-CN.md)
+Apache HoraeDB (incubating) is a high-performance, distributed, cloud native time-series database.
 
-CeresDB is a high-performance, distributed, schema-less, cloud native time-series database that can handle both time-series and analytics workloads.
+> [!IMPORTANT]
+> Apache HoraeDB (incubating) is an effort undergoing incubation at the Apache
+> Software Foundation (ASF), sponsored by the Apache Incubator PMC.
+>
+> Please read the [DISCLAIMER](DISCLAIMER) and a full explanation of ["incubating"](https://incubator.apache.org/policy/incubation.html).
 
-## Status
-The project is currently under rapid development. This early stage is not production ready and may incur data corruptions.
+## Notice
 
+The `main` branch is used for developing new engine described in this [RFC](docs/rfcs/20240827-metric-engine.md). It's currently in a phase of rapid development and remains somewhat unstable, and it's scheduled to be publicly available towards the end of 2025.
 
-## Documentation
-- [User Guide](https://docs.ceresdb.io/)
-- [Development Guide](https://docs.ceresdb.io/dev/compile_run.html)
-- [Roadmap](https://docs.ceresdb.io/dev/roadmap.html)
+The legacy, stable engine is in [analytic-engine](https://github.com/apache/horaedb/tree/analytic-engine) branch.
 
-## Contributing
-Any contribution is welcome!
+## Community
 
-Read our [Contributing Guide](CONTRIBUTING.md) and make your first contribution!
+Thrive together in Apache HoraeDB (incubating) community with users and developers from all around the world.
+
+- Ask questions on [GitHub Discussion](https://github.com/apache/horaedb/discussions).
+- Chat with developers/users on [Discord](https://discord.gg/h5r4kVMRYN) or [DingTalk](https://horaedb.apache.org/images/dingtalk.jpg).
+- Mailing lists are a form of communication used by the Apache community. See guide [here](http://horaedb.apache.org/community/) to subscribe to our list.
+
+> Read our [Contributing Guide](CONTRIBUTING.md) and make your first contribution!
 
 ## Acknowledgment
-Some design of CeresDB references [influxdb_iox](https://github.com/influxdata/influxdb_iox), and some specific module implementations reference [tikv](https://github.com/tikv/tikv) and other excellent open source projects, thanks to InfluxDB, TiKV, and any other referenced great open source projects.
 
-## Licensing
-CeresDB is under [Apache License 2.0](./LICENSE).
+When develop we benefit a lot from several other open source projects, such as [VictoriaMetrics](https://github.com/VictoriaMetrics/VictoriaMetrics), thanks for their awesome work.
 
-## Community and support
-- Check our community [roles](docs/community/ROLES.md)
-- Join the user group on [Slack](https://join.slack.com/t/ceresdbcommunity/shared_invite/zt-1dcbv8yq8-Fv8aVUb6ODTL7kxbzs9fnA)
-- Contact us via Email: ceresdbservice@gmail.com
-- WeChat group [QR code](https://github.com/CeresDB/assets/blob/main/WeChatQRCode.jpg)
-- Join the user group on DingTalk: 44602802
+## License
+
+[Apache License 2.0](./LICENSE)

@@ -1,164 +1,82 @@
-[package]
-name = "ceresdb"
-version = "1.0.0-alpha02"
-authors = ["CeresDB Authors <ceresdbservice@gmail.com>"]
-edition = "2021"
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
 
 [workspace.package]
-version = "1.0.0-alpha02"
-authors = ["CeresDB Authors <ceresdbservice@gmail.com>"]
+version = "2.2.0-alpha"
+authors = ["Apache HoraeDB(incubating) <dev@horaedb.apache.org>"]
 edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/apache/horaedb"
+homepage = "https://horaedb.apache.org/"
+description = "A high-performance, distributed, cloud native time-series database."
 
 [workspace]
-# In alphabetical order
+resolver = "2"
 members = [
-    "analytic_engine",
-    "benchmarks",
-    "catalog",
-    "catalog_impls",
-    "cluster",
-    "common_types",
-    "common_util",
-    "components/arena",
-    "components/arrow_ext",
-    "components/bytes_ext",
-    "components/logger",
-    "components/message_queue",
-    "components/object_store",
-    "components/parquet_ext",
-    "components/profile",
-    "components/skiplist",
-    "components/table_kv",
-    "components/tracing_util",
-    "df_operator",
-    "integration_tests",
-    "interpreters",
-    "meta_client",
-    "proto",
-    "query_engine",
-    "remote_engine_client",
-    "router",
-    "server",
-    "sql",
-    "system_catalog",
-    "table_engine",
-    "tools",
-    "wal",
+    "src/benchmarks",
+    "src/common",
+    "src/metric_engine",
+    "src/pb_types",
+    "src/server"
 ]
 
-[[bin]]
-name = "ceresdb-server"
-path = "src/bin/ceresdb-server.rs"
-
 [workspace.dependencies]
-arrow = { version = "23.0.0", features = ["prettyprint"] }
-arrow_ipc = { version = "23.0.0" }
-arrow_ext = { path = "components/arrow_ext" }
-analytic_engine = { path = "analytic_engine" }
-arena = { path = "components/arena" }
-async-trait = "0.1.53"
-base64 = "0.13"
-bytes = "1.1.0"
-bytes_ext = { path = "components/bytes_ext" }
-catalog = { path = "catalog" }
-catalog_impls = { path = "catalog_impls" }
-chrono = "0.4"
-clap = "3.0"
-clru = "0.6.1"
-cluster = { path = "cluster" }
-criterion = "0.3"
-common_types = { path = "common_types" }
-common_util = { path = "common_util" }
-df_operator = { path = "df_operator" }
-env_logger = "0.6"
-ethbloom = "0.13.0"
+anyhow = { version = "1.0" }
+metric_engine = { path = "src/metric_engine" }
+common = { path = "src/common" }
+thiserror = "1"
+bytes = "1"
+byteorder = "1"
+datafusion = "43"
+parquet = { version = "53" }
+object_store = { version = "0.11" }
+pb_types = { path = "src/pb_types" }
+prost = { version = "0.13" }
+arrow = { version = "53", features = ["prettyprint"] }
+bytesize = "1"
+clap = "4"
+arrow-schema = "53"
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+async-stream = "0.3"
 futures = "0.3"
-lazy_static = "1.4.0"
-log = "0.4"
-logger = { path = "components/logger" }
-lru = "0.7.6"
-interpreters = { path = "interpreters" }
-meta_client = { path = "meta_client" }
-object_store = { path = "components/object_store" }
-parquet_ext = { path = "components/parquet_ext" }
-parquet = { version = "23.0.0" }
-paste = "1.0"
-profile = { path = "components/profile" }
-prometheus = "0.12"
-prometheus-static-metric = "0.5"
-proto = { path = "proto" }
-prost = "0.11"
-query_engine = { path = "query_engine" }
-rand = "0.7"
-remote_engine_client = { path = "remote_engine_client" }
-router = { path = "router" }
-snafu = { version = "0.6.10", features = ["backtraces"] }
-serde = "1.0"
-serde_derive = "1.0"
-serde_json = "1.0.60"
-server = { path = "server" }
-smallvec = "1.6"
-slog = "2.7"
-sql = { path = "sql" }
-system_catalog = { path = "system_catalog" }
-table_engine = { path = "table_engine" }
-table_kv = { path = "components/table_kv" }
-tempfile = "3.1.0"
-tracing_util = { path = "components/tracing_util" }
-tonic = "0.8.1"
-tokio = { version = "1.24", features = ["full"] }
-wal = { path = "wal" }
-message_queue = { path = "components/message_queue" }
-zstd = { version = "0.12", default-features = false }
-
-[workspace.dependencies.ceresdbproto]
-git = "https://github.com/CeresDB/ceresdbproto.git"
-rev = "9430fe7d321955878ca06c431b115d73640f5d8f"
-
-[workspace.dependencies.datafusion]
-git = "https://github.com/CeresDB/arrow-datafusion.git"
-rev = "d84ea9c79c9e83ff0b4dadf8880a4983af59ef48"
-
-[workspace.dependencies.datafusion-expr]
-git = "https://github.com/CeresDB/arrow-datafusion.git"
-rev = "d84ea9c79c9e83ff0b4dadf8880a4983af59ef48"
-
-[workspace.dependencies.datafusion-proto]
-git = "https://github.com/CeresDB/arrow-datafusion.git"
-rev = "d84ea9c79c9e83ff0b4dadf8880a4983af59ef48"
-
-[dependencies]
-analytic_engine = { workspace = true }
-catalog = { workspace = true }
-catalog_impls = { workspace = true }
-clap = { workspace = true }
-cluster = { workspace = true }
-common_util = { workspace = true }
-df_operator = { workspace = true }
-interpreters = { workspace = true }
-log = { workspace = true }
-logger = { workspace = true }
-meta_client = { workspace = true }
-query_engine = { workspace = true }
-router = { workspace = true }
-server = { workspace = true }
-signal-hook = "0.3"
-sort = "0.8.5"
-table_engine = { workspace = true }
-tracing_util = { workspace = true }
-
-[build-dependencies]
-vergen = { version = "5", default-features = false, features = ["build", "git"] }
-
-[profile.bench]
-debug = true
+temp-dir = "0.1"
+itertools = "0.3"
+lazy_static = "1"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+async-scoped = { version = "0.9.0", features = ["use-tokio"] }
+test-log = "0.2"
+uuid = "1"
+criterion = "0.5"
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
 
 # This profile optimizes for good runtime performance.
 [profile.release]
+# reference: https://doc.rust-lang.org/rustc/codegen-options/index.html#codegen-units
+codegen-units = 1
 debug = true
 overflow-checks = true
 
-# This profile optimizes for best runtime performance but with more memory consumption.
-[profile.better-release]
+# This profile is used to produce a smaller (no symbols) binary with a little bit poorer performance,
+# but with a faster speed and low memory consumption required by compiling.
+[profile.release-slim]
 inherits = "release"
-lto = true
+codegen-units = 16
+debug = false
+strip = true

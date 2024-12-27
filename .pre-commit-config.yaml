@@ -1,3 +1,20 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -5,20 +22,24 @@ repos:
       - id: check-yaml
       - id: check-toml
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.3.1
+    rev: v1.4.2
     hooks:
       - id: insert-license
         files: \.rs$
         args:
           - --license-filepath
           - scripts/license-header.txt
+          - --detect-license-in-X-top-lines=16
           - --comment-style
           - //
+          - --use-current-year
   - repo: local
     hooks:
       - id: cargo-sort
         name: Check Cargo.toml is sorted
         entry: cargo-sort
+        args: ["--workspace"]
         language: rust
         types: [file, toml]
         files: Cargo\.toml
+        pass_filenames: false

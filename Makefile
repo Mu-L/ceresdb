@@ -1,3 +1,20 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
 SHELL = /bin/bash
 
 DIR=$(shell pwd)
@@ -6,70 +23,40 @@ init:
 	echo "init"
 	echo "Git branch: $GITBRANCH"
 
+build-debug:
+	ls -alh
+	cd $(DIR); cargo build $(CARGO_FEATURE_FLAGS)
+
 build:
 	ls -alh
-	cd $(DIR); cargo build --release
-
-build-asan:
-	ls -alh
-	export RUSTFLAGS=-Zsanitizer=address RUSTDOCFLAGS=-Zsanitizer=address
-	cd $(DIR); cargo build -Zbuild-std --target x86_64-unknown-linux-gnu --release
-
-build-arm64:
-	ls -alh
-	cd $(DIR); cargo build --release --no-default-features
+	cd $(DIR); cargo build --release $(CARGO_FEATURE_FLAGS)
 
 test:
 	cd $(DIR); cargo test --workspace -- --test-threads=4
 
-# grcov needs build first, then run test
-build-ut:
-	echo $(CARGO_INCREMENTAL)
-	echo $(RUSTFLAGS)
-	echo $(RUSTDOCFLAGS)
-	cd $(DIR); cargo build --workspace
-
-test-ut:
-	echo $(CARGO_INCREMENTAL)
-	echo $(RUSTFLAGS)
-	echo $(RUSTDOCFLAGS)
-	#cd $(DIR); cargo test --workspace -- -Z unstable-options --format json | tee results.json; \
- 	#cat results.json | cargo2junit > ${WORKSPACE}/testresult/TEST-all.xml
-	cargo test --workspace
-
 fmt:
 	cd $(DIR); cargo fmt -- --check
 
-check-cargo-toml:
-	cd $(DIR); cargo sort --workspace --check 
+sort:
+	cd $(DIR); cargo sort --workspace --check
 
-check-license:
-	cd $(DIR); sh scripts/check-license.sh
+check-asf-header:
+	cd $(DIR); hawkeye check
+
+udeps:
+	cd $(DIR); cargo udeps --all-targets --all-features --workspace
 
 clippy:
-	cd $(DIR); cargo clippy --all-targets --all-features --workspace -- -D warnings
-
-# test with address sanitizer
-asan-test:
-	export RUSTFLAGS=-Zsanitizer=address RUSTDOCFLAGS=-Zsanitizer=address
-	cd $(DIR); cargo test -Zbuild-std --target x86_64-unknown-linux-gnu --workspace
-
-# test with address sanitizer under release mode to workaround `attempt to create unaligned or null slice`
-# error in parquet crate.
-asan-test-release:
-	export RUSTFLAGS=-Zsanitizer=address RUSTDOCFLAGS=-Zsanitizer=address
-	cd $(DIR); cargo test -Zbuild-std --target x86_64-unknown-linux-gnu --release --workspace
-
-# test with memory sanitizer
-mem-test:
-	export RUSTFLAGS=-Zsanitizer=memory RUSTDOCFLAGS=-Zsanitizer=memory
-	cd $(DIR); cargo test -Zbuild-std --target x86_64-unknown-linux-gnu --workspace
-
-# test with miri. 
-# only list packages will be tested.
-miri:
-	cd $(DIR); cargo miri test --package arena
+	cd $(DIR); cargo clippy --all-targets --all-features --workspace -- -D warnings -D clippy::dbg-macro -A clippy::too-many-arguments
 
 ensure-disk-quota:
-	# ensure the target directory not to exceed 40GB
-	python3 ./scripts/clean-large-folder.py ./target 42949672960
+	bash ./scripts/free-disk-space.sh
+
+
+fix:
+	cargo fmt
+	cargo sort --workspace
+	cargo clippy --fix --allow-staged --all-targets --all-features --workspace -- -D warnings
+
+update-licenses:
+	cargo install --locked cargo-deny && cargo deny list -f tsv -l crate > DEPENDENCIES.tsv
